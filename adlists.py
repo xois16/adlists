@@ -1,40 +1,25 @@
 #!/usr/bin/env python3
-import sys
-from pathlib import Path
-from datetime import datetime
 import requests
+from datetime import datetime, timezone
 
+URLS_FILE = "urls.txt"
+OUT_FILE = "adlists_merged1.txt"
 
-URLS = [
-    "https://big.oisd.nl",
-    "https://nsfw.oisd.nl",
-    "https://phishing.army/download/phishing_army_blocklist_extended.txt",
-    "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts",
-    "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt"
-]
+with open(URLS_FILE) as f:
+    urls = [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
-OUT = Path("adlists_merged.txt")
-TMP_DIR = Path("downloads")
-TMP_DIR.mkdir(exist_ok=True)
+timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
-def fetch(url, timeout=30):
-    try:
-        r = requests.get(url, timeout=timeout)
-        r.raise_for_status()
-        return r.content
-    except Exception as e:
-        return f"FAILED: {url} -> {e}\n".encode()
-
-def main():
-    with OUT.open("wb") as out:
-        out.write(f"## Merged on {datetime.utcnow().isoformat()}Z\n\n".encode())
-        for url in URLS:
-            out.write(f"\n#=== START {url} ===\n".encode())
-            data = fetch(url)
+with open(OUT_FILE, "wb") as out:
+    out.write(f"## Merged on {timestamp} UTC\n\n".encode())
+    for url in urls:
+        out.write(f"\n#=== START {url} ===\n".encode())
+        out.write(f"# {url} --- {timestamp}\n".encode())
+        try:
+            data = requests.get(url, timeout=30).content
             out.write(data)
             if not data.endswith(b"\n"):
                 out.write(b"\n")
-            out.write(f"#=== END {url} ===\n".encode())
-
-if __name__ == "__main__":
-    main()
+        except Exception as e:
+            out.write(f"#FAILED: {url} -> {e}\n".encode())
+        out.write(f"#=== END {url} ===\n".encode())
