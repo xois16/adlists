@@ -11,9 +11,9 @@ with open(URLS_FILE) as f:
 timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
 with open(OUT_FILE, "wb") as out:
-    out.write(f"# Merged on {timestamp} \n".encode())
+    out.write(f"====# Merged on {timestamp}=====\n".encode())
     for url in urls:
-        out.write(f"\n#= START {url} =\n".encode())
+        out.write(f"\n#===== START {url} =====\n".encode())
         out.write(f"# {url} - {timestamp}\n".encode())
         try:
             data = requests.get(url, timeout=30).content
@@ -21,5 +21,5 @@ with open(OUT_FILE, "wb") as out:
             if not data.endswith(b"\n"):
                 out.write(b"\n")
         except Exception as e:
-            out.write(f"#FAILED: {url} -> {e}\n".encode())
-        out.write(f"#= END {url} =\n".encode())
+            out.write(f"#====FAILED: {url} -> {e}====\n".encode())
+        out.write(f"#===== END {url} =====\n".encode())
