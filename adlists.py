@@ -3,7 +3,7 @@ import requests
 from datetime import datetime, timezone
 
 URLS_FILE = "urls.txt"
-OUT_FILE = "adlists_merged1.txt"
+OUT_FILE = "adlists_merged.txt"
 
 with open(URLS_FILE) as f:
     urls = [line.strip() for line in f if line.strip() and not line.startswith("#")]
@@ -11,10 +11,10 @@ with open(URLS_FILE) as f:
 timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
 with open(OUT_FILE, "wb") as out:
-    out.write(f"## Merged on {timestamp} UTC\n\n".encode())
+    out.write(f"# Merged on {timestamp} \n".encode())
     for url in urls:
-        out.write(f"\n#=== START {url} ===\n".encode())
-        out.write(f"# {url} --- {timestamp}\n".encode())
+        out.write(f"\n#= START {url} =\n".encode())
+        out.write(f"# {url} - {timestamp}\n".encode())
         try:
             data = requests.get(url, timeout=30).content
             out.write(data)
@@ -22,4 +22,4 @@ with open(OUT_FILE, "wb") as out:
                 out.write(b"\n")
         except Exception as e:
             out.write(f"#FAILED: {url} -> {e}\n".encode())
-        out.write(f"#=== END {url} ===\n".encode())
+        out.write(f"#= END {url} =\n".encode())
