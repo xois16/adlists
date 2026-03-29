@@ -6,6 +6,7 @@ Sources combined:
     https://phishing.army/download/phishing_army_blocklist_extended.txt
     https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
     https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+    https://adguardteam.github.io/AdguardFilters/BaseFilter/sections/adservers.txt
 
 What this list blocks
 
