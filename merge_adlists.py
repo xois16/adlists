@@ -22,4 +22,6 @@ with open(OUT_FILE, "wb") as out:
                 out.write(b"\n")
         except Exception as e:
             out.write(f"#====FAILED: {url} -> {e}====\n".encode())
+            print(f"#====FAILED: {url} -> {e}====\n")
         out.write(f"#===== END {url} =====\n".encode())
+        print(f"#===== END {url} =====\n")
