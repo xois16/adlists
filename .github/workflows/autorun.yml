@@ -2,7 +2,7 @@ name: Run Python script and commit changes
 
 on:
   schedule:
-    - cron: "0 *0 */10 * *"   # ogni 6 ore (modifica a piacere)
+    - cron: "*/2 * * * *"
   workflow_dispatch: {}     # ti permette di lanciarlo manualmente
 
 permissions:
