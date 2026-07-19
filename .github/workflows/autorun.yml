@@ -2,7 +2,7 @@ name: Run Python script and commit changes
 
 on:
   schedule:
-    - cron: "*/2 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch: {}     # ti permette di lanciarlo manualmente
 
 permissions:
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
       - name: Install dependencies (optional)
         if: hashFiles('requirements.txt') != ''
