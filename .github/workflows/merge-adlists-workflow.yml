@@ -3,7 +3,7 @@ name: Merge Adlists
 on:
   schedule:
     
-    - cron: '*/2 * * * *'
+    - cron: '0 */8 * * *'
   
   workflow_dispatch:
 
